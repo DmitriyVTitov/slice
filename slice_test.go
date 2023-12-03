@@ -44,8 +44,6 @@ func TestRemoveDuplicates(t *testing.T) {
 			if got := RemoveDuplicates(tt.args.s); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("RemoveDuplicates() = %v, want %v", got, tt.want)
 			}
-
-			t.Log(len(tt.args.s), len(RemoveDuplicates(tt.args.s)))
 		})
 	}
 }

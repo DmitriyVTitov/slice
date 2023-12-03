@@ -3,7 +3,8 @@ package slice
 import "slices"
 
 // RemoveDuplicates removes duplicates from slice of comparables.
-// Returns slice with truncated capacity.
+// RemoveDuplicates modifies the contents of the slice s and returns
+// the modified slice with truncated capacity.
 func RemoveDuplicates[S ~[]E, E comparable](s S) S {
 LOOP:
 	for i := range s {
@@ -18,8 +19,8 @@ LOOP:
 	return slices.Clip(s)
 }
 
-// RemoveDuplicatesFunc removes duplicates from any slice using an equality function.
-// Returns slice with truncated capacity.
+// RemoveDuplicatesFunc is like [RemoveDuplicates] but uses an
+// equality function to compare elements.
 func RemoveDuplicatesFunc[S ~[]E, E any](s S, equal func(a, b E) bool) S {
 LOOP:
 	for i := range s {
@@ -48,8 +49,8 @@ func ContainsDuplicates[S ~[]E, E comparable](s S) bool {
 	return false
 }
 
-// ContainsDuplicatesFunc returns true if slice contains equal elements.
-// Equality calculated using an equality function.
+// ContainsDuplicatesFunc is like [ContainsDuplicates] but uses an
+// equality function to compare elements.
 func ContainsDuplicatesFunc[S ~[]E, E any](s S, equal func(a, b E) bool) bool {
 	for i := range s {
 		for j := i + 1; j < len(s); j++ {
