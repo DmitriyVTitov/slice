@@ -2,7 +2,7 @@ package slice
 
 import "slices"
 
-// RemoveDuplicates rmoves duplicates from slice of comparables.
+// RemoveDuplicates removes duplicates from slice of comparables.
 // Returns slice with truncated capacity.
 func RemoveDuplicates[S ~[]E, E comparable](s S) S {
 LOOP:
@@ -18,8 +18,8 @@ LOOP:
 	return slices.Clip(s)
 }
 
-// RemoveDuplicatesFunc удаляет дубликаты из произвольного слайса.
-// Одинаковость проверяется функцией сравнения.
+// RemoveDuplicatesFunc removes duplicates from any slice using an equality function.
+// Returns slice with truncated capacity.
 func RemoveDuplicatesFunc[S ~[]E, E any](s S, equal func(a, b E) bool) S {
 LOOP:
 	for i := range s {
