@@ -34,7 +34,7 @@ LOOP:
 	return slices.Clip(s)
 }
 
-// ContainsDuplicatesFunc retuurns true if slice contains equal elements.
+// ContainsDuplicatesFunc returns true if slice contains equal elements.
 // Equality calculated using an equality function.
 func ContainsDuplicates[S ~[]E, E comparable](s S) bool {
 	for i := range s {
@@ -48,7 +48,7 @@ func ContainsDuplicates[S ~[]E, E comparable](s S) bool {
 	return false
 }
 
-// ContainsDuplicatesFunc retuurns true if slice contains equal elements.
+// ContainsDuplicatesFunc returns true if slice contains equal elements.
 // Equality calculated using an equality function.
 func ContainsDuplicatesFunc[S ~[]E, E any](s S, equal func(a, b E) bool) bool {
 	for i := range s {
