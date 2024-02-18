@@ -195,3 +195,67 @@ func TestContainsDuplicatesFunc(t *testing.T) {
 		})
 	}
 }
+
+func TestGetDuplicatesIndexes(t *testing.T) {
+	type args struct {
+		s []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want map[int][]int
+	}{
+		{
+			name: "Test 1",
+			args: args{
+				s: []int{1, 2, 1, 1, 3, 2},
+			},
+			want: map[int][]int{0: {2, 3}, 2: {0, 3}, 3: {0, 2}, 1: {5}, 5: {1}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := GetDuplicatesIndexes(tt.args.s); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetDuplicatesIndexes() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGetDuplicatesIndexesFunc(t *testing.T) {
+	tc1 := []testStruct{
+		{s: "A", i: 0, b: true},
+		{s: "B", i: 1, b: true},
+		{s: "A", i: 2, b: true},
+		{s: "A", i: 3, b: true},
+		{s: "B", i: 4, b: true},
+		{s: "C", i: 5, b: true},
+		{s: "D", i: 76, b: true},
+	}
+
+	type args struct {
+		s     []testStruct
+		equal func(a, b testStruct) bool
+	}
+	tests := []struct {
+		name string
+		args args
+		want map[int][]int
+	}{
+		{
+			name: "Test 1",
+			args: args{
+				s:     tc1,
+				equal: func(a, b testStruct) bool { return a.s == b.s },
+			},
+			want: map[int][]int{0: {2, 3}, 2: {0, 3}, 3: {0, 2}, 1: {4}, 4: {1}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := GetDuplicatesIndexesFunc(tt.args.s, tt.args.equal); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetDuplicatesIndexesFunc() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
