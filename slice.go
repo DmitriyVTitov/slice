@@ -68,3 +68,22 @@ func GetDuplicatesIndexesFunc[S ~[]E, E any](s S, equal func(a, b E) bool) map[i
 
 	return duplicates
 }
+
+// RemoveDuplicatesByComparableKey is a generic function that works with any slice type T
+// and any comparable key type K.
+// It takes two parameters:
+//   - The slice to process
+//   - A function that extracts the key from each element (the field you want to check for duplicates)
+func RemoveDuplicatesByComparableKey[T any, K comparable](slice []T, fn func(T) K) []T {
+	keys := make(map[K]bool)
+	result := []T{}
+
+	for _, item := range slice {
+		key := fn(item)
+		if _, value := keys[key]; !value {
+			keys[key] = true
+			result = append(result, item)
+		}
+	}
+	return result
+}

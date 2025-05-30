@@ -259,3 +259,69 @@ func TestGetDuplicatesIndexesFunc(t *testing.T) {
 		})
 	}
 }
+
+func TestRemoveDuplicatesByComparableKey(t *testing.T) {
+	tc1 := []testStruct{
+		{s: "A", i: 1, b: true},
+		{s: "B", i: 2, b: true},
+		{s: "A", i: 3, b: true},
+		{s: "A", i: 4, b: true},
+		{s: "B", i: 5, b: true},
+		{s: "B", i: 6, b: true},
+		{s: "C", i: 7, b: true},
+		{s: "C", i: 8, b: false},
+	}
+
+	want1 := []testStruct{
+		{s: "A", i: 1, b: true},
+		{s: "B", i: 2, b: true},
+		{s: "C", i: 7, b: true},
+	}
+
+	tc2 := []testStruct{
+		{s: "A", i: 1, b: true},
+		{s: "A", i: 1, b: false},
+		{s: "A", i: 1, b: true},
+		{s: "B", i: 2, b: true},
+	}
+
+	want2 := []testStruct{
+		{s: "A", i: 1, b: true},
+		{s: "B", i: 2, b: true},
+	}
+
+	type args struct {
+		slice []testStruct
+		fn    func(testStruct) string
+	}
+	tests := []struct {
+		name string
+		args args
+		want []testStruct
+	}{
+		{
+			name: "Test #1",
+			args: args{
+				slice: tc1,
+				fn:    func(s testStruct) string { return s.s },
+			},
+			want: want1,
+		},
+		{
+			name: "Test #2",
+			args: args{
+				slice: tc2,
+				fn:    func(s testStruct) string { return s.s },
+			},
+			want: want2,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := RemoveDuplicatesByComparableKey(tt.args.slice, tt.args.fn)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("RemoveDuplicatesByComparableKey() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
