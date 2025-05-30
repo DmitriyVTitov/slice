@@ -16,7 +16,7 @@ LOOP:
 	for i := range s {
 		for j := i + 1; j < len(s); j++ {
 			if equal(s[i], s[j]) {
-				s = append(s[:j], s[j+1:]...)
+				s = slices.Delete(s, j, j+1)
 				goto LOOP
 			}
 		}
